@@ -1,0 +1,88 @@
+
+import java.util.Arrays;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author EliteBook
+ */
+public class Trying {
+     //  bcb cdc ccb
+    public static int[][] keymat = new int[][]{{1, 2, 1}, {2, 3, 2},{2, 2, 1}}; 
+  
+    
+      //public static int[][] keymat1 = new int[][]{{6, 24, 1}, {13, 16, 10},{20, 17, 15}}; 
+    
+    /* key inverse matrix */
+
+    public static int[][] invkeymat = new int[][]{{-1, 0, 1}, {2, -1, 0}, {-2, 2, -1 }};
+  
+    
+    
+    //public static int[][] invkeymat1 = new int[][]{{8, 5, 10}, {21, 8, 21}, {21, 12, 8 }};
+  
+    public static String common="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static void main(String[] args)
+    {
+     
+            String plain="ACT";
+                         // 0 2 19  
+            int arr[]=new int[plain.length()];
+            
+            for(int i=0;i<arr.length;i++)
+            {
+                arr[i]=plain.charAt(i)-'A';
+            }
+            
+            
+            int cipher[]=new int[plain.length()];
+            
+            System.out.println(Arrays.toString(arr));
+          
+            for(int i=0;i<3;i++)
+            {
+                // K P mod 26
+                
+                /*
+                     1 1 1   0
+                     1 1 1   2 
+                     1 1 1   19
+                */
+                int k=0,sum=0;
+                for(int j=0;j<3;j++)
+                {
+                    int a=keymat[i][j] * arr[k];
+                    sum+=a;
+                    k++;
+                }
+                cipher[i]=sum%26; //24
+                System.out.println( common.charAt(cipher[i]));
+            }
+            
+            
+            System.out.println("Decryption");
+            for(int i=0;i<3;i++)
+            {
+                int k=0,sum=0;
+                for(int j=0;j<3;j++)
+                {
+                    int a=invkeymat[i][j] * cipher[k];
+                    sum+=a;
+                    
+                    if(sum<0)
+                        sum+=26;
+                    
+                    k++;
+                    
+                }
+                System.out.println( common.charAt(sum%26));
+            }
+            
+    }
+    
+}
